@@ -1,8 +1,9 @@
 function App() {
   return (
-    <>
-      <p className="text-red-400">its working</p>
-    </>
+    <div className="grid place-items-center p-6 font-poppins">
+      <h1>Seneca Interview Assessment</h1>
+      <div className="border-2">hello</div>
+    </div>
   );
 }
 
