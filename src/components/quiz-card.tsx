@@ -1,3 +1,4 @@
+import { getBackgroundColor, getInitialSelections } from "@/helper";
 import { cn } from "@/lib";
 import { TQuizData } from "@/lib/data";
 import { useState } from "react";
@@ -8,41 +9,10 @@ type TQuizCardProps = {
 };
 
 export function QuizCard({ quizData, className }: TQuizCardProps) {
-  // For pre-selected answers on render
-  const getInitialSelections = () => {
-    const initialState: Record<number, string | null> = {};
-
-    // iterate each selection
-    quizData.selections.forEach((selection) => {
-      // for this biology quiz, ribosome is the only correct pre-selected answer
-      if (quizData.id === 1) {
-        if (selection.id === 101) {
-          // set ribosome as correct
-          initialState[selection.id] = selection.correctAnswer;
-        } else {
-          // for other selections, set them to wrong
-          // default to the first element in the options array
-          const incorrectOption =
-            selection.options.find(
-              (option) => option !== selection.correctAnswer
-            ) || selection.options[0];
-
-          initialState[selection.id] = incorrectOption;
-        }
-      } else {
-        // for next quizzes, pre-select combination of both correct/incorrect randomly
-        const randomIndex = Math.floor(
-          Math.random() * quizData.selections.length
-        );
-        initialState[selection.id] = selection.options[randomIndex];
-      }
-    });
-    return initialState;
-  };
-
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string | null>
-  >(getInitialSelections());
+  >(getInitialSelections(quizData));
+
   const [isAllCorrect, setIsAllCorrect] = useState(false);
   const [answerMessage, setAnswerMessage] = useState<string>(
     "The answer is incorrect"
@@ -77,25 +47,11 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
     return "rounded-full";
   };
 
-  const getBackgroundColor = () => {
-    const totalSelections: number = quizData.selections.length;
-    const correctCount: number = quizData.selections.filter(
-      (selection) => selectedAnswers[selection.id] === selection.correctAnswer
-    ).length;
-
-    const correctPercentage: number = (correctCount / totalSelections) * 100;
-
-    if (isAllCorrect) return "seagreen-gradient";
-    if (correctPercentage >= 75) return "yellow-gradient";
-    if (correctPercentage >= 50) return "amber-gradient";
-    return "sunset-gradient";
-  };
-
   return (
     <div
       className={cn(
         className,
-        getBackgroundColor(),
+        getBackgroundColor(quizData, isAllCorrect, selectedAnswers),
         "rounded-lg shadow-lg transition-colors duration-300"
       )}
     >
