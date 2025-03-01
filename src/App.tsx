@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 function App() {
   const [currentQuiz, setCurrentQuiz] = useState<TQuizData | null>(null);
   const [loading, setLoading] = useState(true);
-  // const [endQuiz, setEndQuiz] = useState(false);
 
   useEffect(() => {
     // Pretend to request API here with setTimeout to simulate network delay
@@ -18,21 +17,21 @@ function App() {
       setLoading(false);
     };
     fetchData();
-    // const fetchedQuiz = quizData[0];
-    // setCurrentQuiz(fetchedQuiz);
   }, []);
 
   return (
     <div className="font-poppins font-medium">
       <h1 className="text-center my-10">Seneca Interview Assessment</h1>
       <div className="flex justify-center items-center">
-        {/* {currentQuiz && <QuizCard quizData={currentQuiz} />} */}
         {loading ? (
-          <div className="h-svh">
+          <div className="h-full">
             <LoadingSpinner />
           </div>
         ) : currentQuiz ? (
-          <QuizCard quizData={currentQuiz} />
+          <QuizCard
+            quizData={currentQuiz}
+            className="w-[90%] mx-auto py-10 px-6 h-full text-white"
+          />
         ) : (
           <p>There is no more quizzes to load.</p>
         )}

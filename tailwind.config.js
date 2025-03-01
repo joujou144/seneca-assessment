@@ -6,6 +6,11 @@ export default {
       fontFamily: {
         poppins: ["Poppins", "serif"],
       },
+      colors: {
+        "seagreen-100": "#76E0C2",
+        "seagreen-200": "#59CADA",
+        "sunset-300": "#F6B868",
+      },
     },
   },
   plugins: [],

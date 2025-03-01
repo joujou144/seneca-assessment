@@ -49,36 +49,54 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
   );
 
   const handleToggleChange = (selectionId: number, option: string) => {
-    const newAnswerSelections = { ...selectedAnswers, [selectionId]: option };
-    setSelectedAnswers(newAnswerSelections);
+    const newAnswers = { ...selectedAnswers, [selectionId]: option };
+    setSelectedAnswers(newAnswers);
 
-    // Now check if all answers are correct
+    // Now have to check if all answers are correct
     const allCorrect = quizData.selections.every(
-      (selection) =>
-        newAnswerSelections[selection.id] === selection.correctAnswer
+      (selection) => newAnswers[selection.id] === selection.correctAnswer
     );
     setIsAllCorrect(allCorrect);
     setAnswerMessage(`The answer is ${allCorrect ? "correct" : "incorrect"}`);
   };
 
-  const isSelected = (selectionId: number, option: string) => {
-    return quizData.selections.some(
-      (selection) =>
-        selection.id === selectionId && selection.correctAnswer === option
-    );
+  // For quiz 1 layout purposes only per design
+  const isQuiz1 = (selectionId: number) =>
+    quizData.id === 1 && selectionId === 103;
+
+  // Not very keen on this implementation because the options are mapped and using flexbox for layout
+  const getButtonRoundedStyle = (
+    selectionId: number,
+    option: string,
+    options: string[]
+  ) => {
+    if (isQuiz1(selectionId)) {
+      if (options[0] === option) return "rounded-t-lg min-[630px]:rounded-full";
+      if (options[1] === option) return "rounded-b-lg min-[630px]:rounded-full";
+    }
+    return "rounded-full";
   };
 
-  // useEffect(() => {
-  //   getInitialSelections();
-  //   console.log("selectedAnswers:", selectedAnswers);
-  // }, [selectedAnswers]);
+  const getBackgroundColor = () => {
+    const totalSelections: number = quizData.selections.length;
+    const correctCount: number = quizData.selections.filter(
+      (selection) => selectedAnswers[selection.id] === selection.correctAnswer
+    ).length;
+
+    const correctPercentage: number = (correctCount / totalSelections) * 100;
+
+    if (isAllCorrect) return "seagreen-gradient";
+    if (correctPercentage >= 75) return "yellow-gradient";
+    if (correctPercentage >= 50) return "amber-gradient";
+    return "sunset-gradient";
+  };
 
   return (
     <div
       className={cn(
         className,
-        isAllCorrect ? "bg-cyan-400" : "bg-amber-500",
-        "rounded-lg shadow-lg transition-colors duration-300 w-[90%] mx-auto py-10 px-6 h-full text-white"
+        getBackgroundColor(),
+        "rounded-lg shadow-lg transition-colors duration-300"
       )}
     >
       <form className="flex flex-col items-center justify-center gap-10">
@@ -87,7 +105,12 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
           {quizData.selections.map((selection) => (
             <div
               key={selection.id}
-              className="font-normal border-[2px] flex flex-col gap-3 rounded-full max-lg:border-none border-white border-opacity-75 lg:gap-0 lg:flex-row lg:min-w-[850px]"
+              className={cn(
+                "font-normal border-[2px] flex flex-wrap border-white border-opacity-75 min-[630px]:min-w-[550px] md:min-w-[650px] lg:min-w-[850px]",
+                isQuiz1(selection.id) && selection.id === 103
+                  ? "rounded-xl min-[630px]:rounded-full"
+                  : "rounded-full"
+              )}
             >
               {selection.options.map((option) => (
                 <button
@@ -97,10 +120,14 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
                     handleToggleChange(selection.id, option);
                   }}
                   className={cn(
-                    " p-4 rounded-full text-center transition-colors duration-300 flex-1 min-w-fit lg:w-full border-[2px] border-white border-opacity-70 lg:border-none",
-
+                    " p-4 text-center transition-colors duration-300 flex-1 min-w-fit min-[630px]:w-full",
+                    getButtonRoundedStyle(
+                      selection.id,
+                      option,
+                      selection.options
+                    ),
                     selectedAnswers[selection.id] === option
-                      ? "bg-white bg-opacity-75 text-gray-500"
+                      ? "bg-white bg-opacity-75 text-zinc-400"
                       : "hover:text-gray-300 bg-transparent"
                   )}
                 >
