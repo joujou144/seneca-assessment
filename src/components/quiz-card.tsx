@@ -11,9 +11,14 @@ import { useState } from "react";
 type TQuizCardProps = {
   quizData: TQuizData;
   className?: string;
+  onAllCorrect?: () => void;
 };
 
-export function QuizCard({ quizData, className }: TQuizCardProps) {
+export function QuizCard({
+  quizData,
+  className,
+  onAllCorrect,
+}: TQuizCardProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string | null>
   >(getInitialSelections(quizData));
@@ -33,6 +38,12 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
     );
     setIsAllCorrect(allCorrect);
     setAnswerMessage(`The answer is ${allCorrect ? "correct" : "incorrect"}`);
+
+    if (allCorrect && onAllCorrect) {
+      setTimeout(() => {
+        onAllCorrect();
+      }, 1200);
+    }
   };
 
   return (
@@ -43,7 +54,7 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
         "rounded-lg shadow-lg transition-colors duration-300"
       )}
     >
-      <form className="flex flex-col items-center justify-center gap-10">
+      <div className="flex flex-col items-center justify-center gap-10">
         <h2 className="text-lg">{quizData.question}</h2>
         <div className="flex flex-col gap-3">
           {quizData.selections.map((selection) => (
@@ -83,7 +94,7 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
         </div>
 
         {answerMessage && <p>{answerMessage}</p>}
-      </form>
+      </div>
     </div>
   );
 }
