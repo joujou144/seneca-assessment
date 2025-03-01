@@ -1,4 +1,9 @@
-import { getBackgroundColor, getInitialSelections } from "@/helper";
+import {
+  getBackgroundColor,
+  getButtonRoundedStyle,
+  getInitialSelections,
+  isQuiz1,
+} from "@/helper";
 import { cn } from "@/lib";
 import { TQuizData } from "@/lib/data";
 import { useState } from "react";
@@ -30,23 +35,6 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
     setAnswerMessage(`The answer is ${allCorrect ? "correct" : "incorrect"}`);
   };
 
-  // For quiz 1 layout purposes only per design
-  const isQuiz1 = (selectionId: number) =>
-    quizData.id === 1 && selectionId === 103;
-
-  // Not very keen on this implementation because the options are mapped and using flexbox for layout
-  const getButtonRoundedStyle = (
-    selectionId: number,
-    option: string,
-    options: string[]
-  ) => {
-    if (isQuiz1(selectionId)) {
-      if (options[0] === option) return "rounded-t-lg min-[630px]:rounded-full";
-      if (options[1] === option) return "rounded-b-lg min-[630px]:rounded-full";
-    }
-    return "rounded-full";
-  };
-
   return (
     <div
       className={cn(
@@ -63,7 +51,7 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
               key={selection.id}
               className={cn(
                 "font-normal border-[2px] flex flex-wrap border-white border-opacity-75 min-[630px]:min-w-[550px] md:min-w-[650px] lg:min-w-[850px]",
-                isQuiz1(selection.id) && selection.id === 103
+                isQuiz1(selection.id, quizData.id) && selection.id === 103
                   ? "rounded-xl min-[630px]:rounded-full"
                   : "rounded-full"
               )}
