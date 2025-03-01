@@ -19,23 +19,23 @@ export const quizData: TQuizData[] = [
     selections: [
       {
         id: 101,
-        options: ["cell wall", "ribosomes"],
-        correctAnswer: "ribosomes",
+        options: ["Cell wall", "Ribosomes"],
+        correctAnswer: "Ribosomes",
       },
       {
         id: 102,
-        options: ["cytoplasm", "chloroplast"],
-        correctAnswer: "cytoplasm",
+        options: ["Cytoplasm", "Chloroplast"],
+        correctAnswer: "Cytoplasm",
       },
       {
         id: 103,
-        options: ["partially permeable membrane", "impermeable membrane"],
-        correctAnswer: "partially permeable membrane",
+        options: ["Partially permeable membrane", "Impermeable membrane"],
+        correctAnswer: "Partially permeable membrane",
       },
       {
         id: 104,
-        options: ["cellulose", "mitochondria"],
-        correctAnswer: "mitochondria",
+        options: ["Cellulose", "Mitochondria"],
+        correctAnswer: "Mitochondria",
       },
     ],
   },
@@ -46,13 +46,13 @@ export const quizData: TQuizData[] = [
     selections: [
       {
         id: 201,
-        options: ["liverpool", "chelsea", "man utd"],
-        correctAnswer: "chelsea",
+        options: ["Liverpool", "Chelsea", "Man Utd"],
+        correctAnswer: "Chelsea",
       },
       {
         id: 202,
-        options: ["serena williams", "naomi osaka"],
-        correctAnswer: "naomi osaka",
+        options: ["Serena Williams", "Naomi Osaka"],
+        correctAnswer: "Naomi Osaka",
       },
     ],
   },
@@ -63,23 +63,23 @@ export const quizData: TQuizData[] = [
     selections: [
       {
         id: 301,
-        options: ["good pay", "bad pay"],
-        correctAnswer: "good pay",
+        options: ["Good pay", "Bad pay"],
+        correctAnswer: "Good pay",
       },
       {
         id: 302,
-        options: ["lot of meetings", "less meetings"],
-        correctAnswer: "less meetings",
+        options: ["Lot of meetings", "Less meetings"],
+        correctAnswer: "Less meetings",
       },
       {
         id: 303,
-        options: ["free coffee", "expensive coffee"],
-        correctAnswer: "free coffee",
+        options: ["Free coffee", "Expensive coffee"],
+        correctAnswer: "Free coffee",
       },
       {
         id: 304,
-        options: ["bear in office", "dog in office"],
-        correctAnswer: "bear in office",
+        options: ["Bear in office", "Dog in office"],
+        correctAnswer: "Bear in office",
       },
     ],
   },

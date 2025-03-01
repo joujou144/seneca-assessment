@@ -1,3 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .seagreen-gradient {
+    @apply bg-gradient-to-t from-cyan-500 via-seagreen-200 to-seagreen-100;
+  }
+  .sunset-gradient {
+    @apply bg-gradient-to-t from-orange-600 via-orange-400 to-sunset-300;
+  }
+
+  .amber-gradient {
+    @apply bg-gradient-to-t from-amber-600 via-amber-400 to-amber-200;
+  }
+
+  .yellow-gradient {
+    @apply bg-gradient-to-t from-yellow-600 via-yellow-400 to-yellow-200;
+  }
+}
