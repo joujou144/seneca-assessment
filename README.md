@@ -1,50 +1,87 @@
-# React + TypeScript + Vite
+# Quiz App - Seneca Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This project is an interactive quiz application that allows users to answer questions by toggling between different answer options. The application features dynamic backgrounds that change based on the user's performance, automatic progression to the next quiz when all answers are correct, and a responsive design that works across different screen sizes.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Quiz Functionality
+- Toggle-based selection UI for choosing between answer options
+- Real-time feedback on answer correctness
+- Animated transitions between questions
+- Dynamic background colours that change based on the percentage of correct answers:
+  - Default: Sunset gradient
+  - ≥50% correct: Amber gradient
+  - ≥75% correct: Yellow gradient
+  - 100% correct: Seagreen gradient
 
-## Expanding the ESLint configuration
+### User Experience
+- Automatic progression to the next quiz when all answers are correct
+- Responsive design that adapts to different screen sizes
+- Visual feedback through colour changes and animations
+- Clean, centered UI with intuitive controls
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Technical Implementation
+- Simulated API calls to fetch quiz data
+- Loading states with visual indicators
+- State management for tracking user selections and quiz progress
+- Conditional styling based on user interactions
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
+- React with TypeScript
+- Tailwind CSS for styling
+- Classnames library for conditional class application
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Known Limitations
+- The current implementation of selection button styling is for demo purposes to match the assessment's specified design
+- Not an ideal long-term solution—current implementation applies special button styles based on content rather than a scalable layout structure
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14.0.0 or higher)
+- npm or yarn
+
+### Installation
+1. Clone the repository
+```bash
+git clone [repository-url]
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
 ```
+
+3. Start the development server
+```bash
+npm start
+# or
+yarn start
+```
+
+## Project Structure
+```
+src/
+├── components/
+│   ├── loading-spinner.tsx
+│   └── quiz-card.tsx
+├── helper/
+│   ├── get-background-color.tsx
+│   ├── get-button-rounded-style.tsx
+│   ├── get-initial-selections.tsx
+│   └── index.ts
+├── lib/
+│   ├── data.ts
+│   └── index.ts
+└── App.tsx
+```
+
+## Future Improvements
+- Implement a more maintainable approach to button styling
+- Add more comprehensive progress tracking
+- Implement a scoring system
+- Add support for different question types
+- Improve accessibility features
