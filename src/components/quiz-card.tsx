@@ -2,7 +2,7 @@ import {
   getBackgroundColor,
   getButtonRoundedStyle,
   getInitialSelections,
-  isQuiz1,
+  isQuizBiology,
 } from "@/helper";
 import { cn } from "@/lib";
 import { TQuizData } from "@/lib/data";
@@ -42,7 +42,7 @@ export function QuizCard({
     if (allCorrect && onAllCorrect) {
       setTimeout(() => {
         onAllCorrect();
-      }, 1200);
+      }, 2000);
     }
   };
 
@@ -61,29 +61,31 @@ export function QuizCard({
             <div
               key={selection.id}
               className={cn(
-                "font-normal border-[2px] flex flex-wrap border-white border-opacity-75 min-[630px]:min-w-[550px] md:min-w-[650px] lg:min-w-[850px]",
-                isQuiz1(selection.id, quizData.id) && selection.id === 103
-                  ? "rounded-xl min-[630px]:rounded-full"
-                  : "rounded-full"
+                "selection-container",
+                isQuizBiology(selection.id, quizData.id)
+                  ? "rounded-xl sm:rounded-full"
+                  : "rounded-xl xs:rounded-full"
               )}
             >
               {selection.options.map((option) => (
                 <button
+                  disabled={isAllCorrect}
                   key={option}
                   type="button"
                   onClick={() => {
                     handleToggleChange(selection.id, option);
                   }}
                   className={cn(
-                    " p-4 text-center transition-colors duration-300 flex-1 min-w-fit min-[630px]:w-full",
+                    "p-4 text-center transition-colors duration-300 flex-1 w-full min-w-full xs:min-w-fit sm:w-full",
                     getButtonRoundedStyle(
                       selection.id,
                       option,
                       selection.options
                     ),
+
                     selectedAnswers[selection.id] === option
                       ? "bg-white bg-opacity-75 text-zinc-400"
-                      : "hover:text-gray-300 bg-transparent"
+                      : "hover:text-gray-300 bg-transparent disabled:text-gray-300"
                   )}
                 >
                   {option}
