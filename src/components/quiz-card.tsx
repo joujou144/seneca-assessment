@@ -2,7 +2,7 @@ import {
   getBackgroundColor,
   getButtonRoundedStyle,
   getInitialSelections,
-  isQuiz1,
+  isQuizBiology,
 } from "@/helper";
 import { cn } from "@/lib";
 import { TQuizData } from "@/lib/data";
@@ -11,9 +11,14 @@ import { useState } from "react";
 type TQuizCardProps = {
   quizData: TQuizData;
   className?: string;
+  onAllCorrect?: () => void;
 };
 
-export function QuizCard({ quizData, className }: TQuizCardProps) {
+export function QuizCard({
+  quizData,
+  className,
+  onAllCorrect,
+}: TQuizCardProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string | null>
   >(getInitialSelections(quizData));
@@ -33,6 +38,12 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
     );
     setIsAllCorrect(allCorrect);
     setAnswerMessage(`The answer is ${allCorrect ? "correct" : "incorrect"}`);
+
+    if (allCorrect && onAllCorrect) {
+      setTimeout(() => {
+        onAllCorrect();
+      }, 1300);
+    }
   };
 
   return (
@@ -43,36 +54,38 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
         "rounded-lg shadow-lg transition-colors duration-300"
       )}
     >
-      <form className="flex flex-col items-center justify-center gap-10">
+      <div className="flex flex-col items-center justify-center gap-10">
         <h2 className="text-lg">{quizData.question}</h2>
         <div className="flex flex-col gap-3">
           {quizData.selections.map((selection) => (
             <div
               key={selection.id}
               className={cn(
-                "font-normal border-[2px] flex flex-wrap border-white border-opacity-75 min-[630px]:min-w-[550px] md:min-w-[650px] lg:min-w-[850px]",
-                isQuiz1(selection.id, quizData.id) && selection.id === 103
-                  ? "rounded-xl min-[630px]:rounded-full"
-                  : "rounded-full"
+                "selection-container",
+                isQuizBiology(selection.id, quizData.id)
+                  ? "rounded-xl sm:rounded-full"
+                  : "rounded-xl xs:rounded-full"
               )}
             >
               {selection.options.map((option) => (
                 <button
+                  disabled={isAllCorrect}
                   key={option}
                   type="button"
                   onClick={() => {
                     handleToggleChange(selection.id, option);
                   }}
                   className={cn(
-                    " p-4 text-center transition-colors duration-300 flex-1 min-w-fit min-[630px]:w-full",
+                    "p-4 text-center transition-colors duration-300 flex-1 w-full min-w-full xs:min-w-fit sm:w-full",
                     getButtonRoundedStyle(
                       selection.id,
                       option,
                       selection.options
                     ),
+
                     selectedAnswers[selection.id] === option
                       ? "bg-white bg-opacity-75 text-zinc-400"
-                      : "hover:text-gray-300 bg-transparent"
+                      : "hover:text-gray-300 bg-transparent disabled:text-gray-300"
                   )}
                 >
                   {option}
@@ -83,7 +96,7 @@ export function QuizCard({ quizData, className }: TQuizCardProps) {
         </div>
 
         {answerMessage && <p>{answerMessage}</p>}
-      </form>
+      </div>
     </div>
   );
 }

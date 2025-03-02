@@ -5,32 +5,45 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [currentQuiz, setCurrentQuiz] = useState<TQuizData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [currentQuizIdx, setCurrentQuizIdx] = useState(0);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // async function just to pretend to make API req
+  const getQuiz = async (index: number) => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    if (index < quizData.length) {
+      const fetchedQuiz = quizData[index];
+      setCurrentQuiz(fetchedQuiz);
+      setCurrentQuizIdx(index);
+    } else {
+      setCurrentQuiz(null);
+    }
+    setLoading(false);
+  };
+
+  const loadNextQuiz = () => {
+    getQuiz(currentQuizIdx + 1);
+  };
 
   useEffect(() => {
-    // Pretend to request API here with setTimeout to simulate network delay
-    const fetchData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      // Set the quiz to the first item the array
-      const fetchedQuiz = quizData[0];
-      setCurrentQuiz(fetchedQuiz);
-      setLoading(false);
-    };
-    fetchData();
+    getQuiz(0);
   }, []);
 
   return (
     <div className="font-poppins font-medium">
       <h1 className="text-center my-10">Seneca Interview Assessment</h1>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center h-[calc(100vh-120px)]">
         {loading ? (
-          <div className="h-full">
+          <div className="flex flex-col justify-center items-center">
             <LoadingSpinner />
           </div>
         ) : currentQuiz ? (
           <QuizCard
             quizData={currentQuiz}
-            className="w-[90%] mx-auto py-10 px-6 h-full text-white"
+            onAllCorrect={loadNextQuiz}
+            className="w-[90%] mx-auto py-10 px-6 text-white"
           />
         ) : (
           <p>There is no more quizzes to load.</p>
