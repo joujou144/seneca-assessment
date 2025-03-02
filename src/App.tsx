@@ -1,7 +1,7 @@
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { QuizCard } from "@/components/quiz-card";
 import { quizData, TQuizData } from "@/lib/data";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const [currentQuiz, setCurrentQuiz] = useState<TQuizData | null>(null);
@@ -32,9 +32,11 @@ function App() {
   }, []);
 
   return (
-    <div className="font-poppins font-medium">
-      <h1 className="text-center my-10">Seneca Interview Assessment</h1>
-      <div className="flex justify-center items-center h-[calc(100vh-120px)]">
+    <React.Fragment>
+      <h1 className="text-center my-10 font-semibold text-md">
+        Seneca Interview Assessment
+      </h1>
+      <section className="font-poppins font-medium flex justify-center items-center h-[calc(100vh-120px)]">
         {loading ? (
           <div className="flex flex-col justify-center items-center">
             <LoadingSpinner />
@@ -48,8 +50,8 @@ function App() {
         ) : (
           <p>There is no more quizzes to load.</p>
         )}
-      </div>
-    </div>
+      </section>
+    </React.Fragment>
   );
 }
 
