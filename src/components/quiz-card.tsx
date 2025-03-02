@@ -42,7 +42,7 @@ export function QuizCard({
     if (allCorrect && onAllCorrect) {
       setTimeout(() => {
         onAllCorrect();
-      }, 2000);
+      }, 1300);
     }
   };
 
