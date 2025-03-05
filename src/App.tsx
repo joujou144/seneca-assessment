@@ -44,7 +44,7 @@ function App() {
         ) : currentQuiz ? (
           <QuizCard
             quizData={currentQuiz}
-            onAllCorrect={loadNextQuiz}
+            getNextQuiz={loadNextQuiz}
             className="w-[90%] mx-auto py-10 px-6 text-white"
           />
         ) : (

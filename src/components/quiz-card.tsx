@@ -2,7 +2,6 @@ import {
   getBackgroundColor,
   getButtonRoundedStyle,
   getInitialSelections,
-  isQuizBiology,
 } from "@/helper";
 import { cn } from "@/lib";
 import { TQuizData } from "@/lib/data";
@@ -11,14 +10,10 @@ import { useState } from "react";
 type TQuizCardProps = {
   quizData: TQuizData;
   className?: string;
-  onAllCorrect?: () => void;
+  getNextQuiz?: () => void;
 };
 
-export function QuizCard({
-  quizData,
-  className,
-  onAllCorrect,
-}: TQuizCardProps) {
+export function QuizCard({ quizData, className, getNextQuiz }: TQuizCardProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string | null>
   >(getInitialSelections(quizData));
@@ -39,9 +34,9 @@ export function QuizCard({
     setIsAllCorrect(allCorrect);
     setAnswerMessage(`The answer is ${allCorrect ? "correct" : "incorrect"}`);
 
-    if (allCorrect && onAllCorrect) {
+    if (allCorrect && getNextQuiz) {
       setTimeout(() => {
-        onAllCorrect();
+        getNextQuiz();
       }, 1300);
     }
   };
@@ -60,12 +55,7 @@ export function QuizCard({
           {quizData.selections.map((selection) => (
             <div
               key={selection.id}
-              className={cn(
-                "selection-container",
-                isQuizBiology(selection.id, quizData.id)
-                  ? "rounded-xl sm:rounded-full"
-                  : "rounded-xl xs:rounded-full"
-              )}
+              className="selection-container rounded-xl sm:rounded-full"
             >
               {selection.options.map((option) => (
                 <button
@@ -77,11 +67,7 @@ export function QuizCard({
                   }}
                   className={cn(
                     "p-4 text-center transition-colors duration-300 flex-1 w-full min-w-full xs:min-w-fit sm:w-full",
-                    getButtonRoundedStyle(
-                      selection.id,
-                      option,
-                      selection.options
-                    ),
+                    getButtonRoundedStyle(option, selection.options),
 
                     selectedAnswers[selection.id] === option
                       ? "bg-white bg-opacity-75 text-zinc-400"
