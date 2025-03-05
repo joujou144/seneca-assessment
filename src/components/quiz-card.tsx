@@ -66,7 +66,7 @@ export function QuizCard({ quizData, className, getNextQuiz }: TQuizCardProps) {
                     handleToggleChange(selection.id, option);
                   }}
                   className={cn(
-                    "p-4 text-center transition-colors duration-300 flex-1 w-full min-w-full xs:min-w-fit sm:w-full",
+                    "p-4 text-center transition-colors duration-300 flex-1 min-w-full sm:min-w-fit",
                     getButtonRoundedStyle(option, selection.options),
 
                     selectedAnswers[selection.id] === option
