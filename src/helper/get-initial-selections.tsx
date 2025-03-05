@@ -23,9 +23,7 @@ export const getInitialSelections = (quizData: TQuizData) => {
       }
     } else {
       // for next quizzes, pre-select combination of both correct/incorrect randomly
-      const randomIndex = Math.floor(
-        Math.random() * quizData.selections.length
-      );
+      const randomIndex = Math.floor(Math.random() * selection.options.length);
       initialState[selection.id] = selection.options[randomIndex];
     }
   });
